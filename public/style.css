@@ -1,0 +1,5 @@
+body { font-family: Arial, sans-serif; margin: 2rem; }
+#task-form { margin-bottom: 1rem; }
+#task-list { list-style: none; padding: 0; }
+.task-item { margin: 0.5rem 0; }
+button.delete { margin-left: 0.5rem; }
