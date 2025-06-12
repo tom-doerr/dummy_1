@@ -7,9 +7,11 @@ function saveTasks(tasks) {
 }
 
 function addTask(title, { priority = 1, tags = [], timeSpent = 0 } = {}) {
+  // ensure priority remains within the valid 1-9 range
+  const clamped = Math.min(9, Math.max(1, priority));
   const tasks = getTasks();
   const id = tasks.length ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
-  const task = { id, title, priority, tags, timeSpent };
+  const task = { id, title, priority: clamped, tags, timeSpent };
   tasks.push(task);
   saveTasks(tasks);
   return task;
@@ -40,6 +42,11 @@ function removeTask(id) {
 function addTaskToDOM(task) {
   const li = document.createElement('li');
   li.className = 'task-item';
+  if (task.priority >= 8) {
+    li.classList.add('high-priority');
+  } else if (task.priority <= 3) {
+    li.classList.add('low-priority');
+  }
 
   const titleSpan = document.createElement('span');
   titleSpan.textContent = `${task.title} (p${task.priority})`;
@@ -80,7 +87,9 @@ function addTaskToDOM(task) {
 
 function renderTasks() {
   list.innerHTML = '';
-  getTasks().forEach(addTaskToDOM);
+  getTasks()
+    .sort((a, b) => b.priority - a.priority)
+    .forEach(addTaskToDOM);
 }
 
 
@@ -94,11 +103,11 @@ function init() {
       .split(',')
       .map(t => t.trim())
       .filter(Boolean);
-    const task = addTask(title, { priority, tags });
+    addTask(title, { priority, tags });
     titleInput.value = '';
     priorityInput.value = '1';
     tagsInput.value = '';
-    addTaskToDOM(task);
+    renderTasks();
   });
 
   renderTasks();

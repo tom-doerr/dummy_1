@@ -49,4 +49,12 @@ describe('additional edge cases', () => {
     addTaskToDOM(task);
     expect(document.querySelector('span.tags')).toBeNull();
   });
+
+  test('addTask clamps priority to valid range', () => {
+    const { addTask } = loadScript();
+    const low = addTask('low', { priority: -5 });
+    const high = addTask('high', { priority: 99 });
+    expect(low.priority).toBe(1);
+    expect(high.priority).toBe(9);
+  });
 });

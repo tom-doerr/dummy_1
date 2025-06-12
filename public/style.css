@@ -6,3 +6,5 @@ button.delete { margin-left: 0.5rem; }
 .task-item span.tags { margin-left: 0.5rem; color: #555; font-size: 0.9em; }
 .task-item span.time { margin-left: 0.5rem; font-weight: bold; }
 button.time-add { margin-left: 0.25rem; }
+.task-item.high-priority { background-color: #ffe6e6; }
+.task-item.low-priority { opacity: 0.7; }
