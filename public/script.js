@@ -1,50 +1,68 @@
-document.addEventListener('DOMContentLoaded', () => {
-  const form = document.getElementById('task-form');
-  const titleInput = document.getElementById('title');
-  const list = document.getElementById('task-list');
+function getTasks() {
+  return JSON.parse(localStorage.getItem('tasks') || '[]');
+}
 
-  function loadTasks() {
-    fetch('/api/tasks')
-      .then(res => res.json())
-      .then(tasks => {
-        list.innerHTML = '';
-        tasks.forEach(addTaskToDOM);
-      });
-  }
+function saveTasks(tasks) {
+  localStorage.setItem('tasks', JSON.stringify(tasks));
+}
 
-  function addTaskToDOM(task) {
-    const li = document.createElement('li');
-    li.className = 'task-item';
-    li.textContent = task.title;
+function addTask(title) {
+  const tasks = getTasks();
+  const id = tasks.length ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
+  const task = { id, title };
+  tasks.push(task);
+  saveTasks(tasks);
+  return task;
+}
 
-    const del = document.createElement('button');
-    del.textContent = 'Delete';
-    del.className = 'delete';
-    del.addEventListener('click', () => deleteTask(task.id));
+function removeTask(id) {
+  let tasks = getTasks();
+  tasks = tasks.filter(t => t.id !== id);
+  saveTasks(tasks);
+}
 
-    li.appendChild(del);
-    list.appendChild(li);
-  }
+function addTaskToDOM(task) {
+  const li = document.createElement('li');
+  li.className = 'task-item';
+  li.textContent = task.title;
 
-  function deleteTask(id) {
-    fetch(`/api/tasks/${id}`, { method: 'DELETE' })
-      .then(() => loadTasks());
-  }
+  const del = document.createElement('button');
+  del.textContent = 'Delete';
+  del.className = 'delete';
+  del.addEventListener('click', () => {
+    removeTask(task.id);
+    renderTasks();
+  });
 
+  li.appendChild(del);
+  list.appendChild(li);
+}
+
+function renderTasks() {
+  list.innerHTML = '';
+  getTasks().forEach(addTaskToDOM);
+}
+
+function init() {
   form.addEventListener('submit', e => {
     e.preventDefault();
     const title = titleInput.value.trim();
     if (!title) return;
-    fetch('/api/tasks', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ title })
-    })
-      .then(() => {
-        titleInput.value = '';
-        loadTasks();
-      });
+    const task = addTask(title);
+    titleInput.value = '';
+    addTaskToDOM(task);
   });
 
-  loadTasks();
-});
+  renderTasks();
+}
+
+if (typeof document !== 'undefined') {
+  var form = document.getElementById('task-form');
+  var titleInput = document.getElementById('title');
+  var list = document.getElementById('task-list');
+  document.addEventListener('DOMContentLoaded', init);
+}
+
+if (typeof module !== 'undefined') {
+  module.exports = { getTasks, saveTasks, addTask, removeTask };
+}

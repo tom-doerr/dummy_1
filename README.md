@@ -1,6 +1,6 @@
 # Task Manager
 
-A simple task manager web application using Node.js and Express. Tasks are stored in-memory and reset when the server restarts.
+A simple client-side task manager web application. Tasks are stored in your browser using `localStorage`.
 
 ## Setup
 
@@ -16,7 +16,30 @@ Run the provided environment setup script which installs dependencies:
 npm start
 ```
 
-Open [http://localhost:3000](http://localhost:3000) in your browser.
+The app will be available at [http://localhost:8080](http://localhost:8080).
+
+## Local Hosting
+
+Running `npm start` serves the static files from `public/` so you can test the
+app locally at `http://localhost:8080`.
+
+## Deploying online
+
+You can publish the project for free using **GitHub Pages**. A workflow file
+(`.github/workflows/pages.yml`) deploys the contents of the `public/` directory
+whenever you push to the `main` branch.
+
+To enable Pages deployment:
+
+1. Enable GitHub Pages in the repository settings and choose "GitHub Actions" as
+   the source.
+2. Push to `main` and the site will be built and published automatically at a
+   URL like `https://<user>.github.io/<repo>/`.
+
+## GitHub deployment workflow
+
+The Pages workflow installs dependencies, runs tests and uploads the `public/`
+folder. Each successful run publishes an updated version of the site.
 
 ## Testing
 
@@ -24,8 +47,3 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 npm test
 ```
 
-## Endpoints
-
-- `GET /api/tasks` – list tasks
-- `POST /api/tasks` – add task with JSON body `{ "title": "Task" }`
-- `DELETE /api/tasks/:id` – delete task by id
