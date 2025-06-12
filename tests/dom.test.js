@@ -47,4 +47,31 @@ describe('DOM interactions', () => {
     expect(items[0].textContent).toContain('mytask');
     expect(getTasks().length).toBe(1);
   });
+
+  test('delete button removes task', () => {
+    const { addTask, renderTasks, getTasks } = loadScript();
+    addTask('todelete');
+    renderTasks();
+    const button = document.querySelector('button.delete');
+    button.dispatchEvent(new Event('click'));
+    expect(getTasks()).toEqual([]);
+    expect(document.querySelectorAll('li.task-item').length).toBe(0);
+  });
+
+  test('tasks render on DOMContentLoaded', () => {
+    localStorage.setItem('tasks', JSON.stringify([{ id: 5, title: 'persisted' }]));
+    jest.resetModules();
+    document.body.innerHTML = `
+      <form id="task-form">
+        <input id="title" />
+        <button type="submit">Add</button>
+      </form>
+      <ul id="task-list"></ul>
+    `;
+    require('../public/script.js');
+    document.dispatchEvent(new Event('DOMContentLoaded'));
+    const items = document.querySelectorAll('li.task-item');
+    expect(items.length).toBe(1);
+    expect(items[0].textContent).toContain('persisted');
+  });
 });
