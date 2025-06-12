@@ -18,6 +18,10 @@ if ! command -v npm >/dev/null 2>&1; then
 fi
 
 # Install npm dependencies
-npm install
+if [ -n "$CI" ]; then
+  npm ci
+else
+  npm install
+fi
 
 echo "Environment setup complete."
