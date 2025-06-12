@@ -2,6 +2,8 @@
 
 A simple client-side task manager web application. Tasks are stored in your browser using `localStorage`.
 
+The app now supports priority levels `1-9`, comma separated tags and basic time tracking for each task. An optional on-device language model integration (see `public/llm.js`) can parse natural language commands to add or edit tasks.
+
 ## Setup
 
 Run the provided environment setup script which installs dependencies:
