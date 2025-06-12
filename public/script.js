@@ -64,5 +64,13 @@ if (typeof document !== 'undefined') {
 }
 
 if (typeof module !== 'undefined') {
-  module.exports = { getTasks, saveTasks, addTask, removeTask };
+  module.exports = {
+    getTasks,
+    saveTasks,
+    addTask,
+    removeTask,
+    addTaskToDOM,
+    renderTasks,
+    init,
+  };
 }
