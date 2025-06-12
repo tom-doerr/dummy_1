@@ -101,11 +101,11 @@ function init() {
       .split(',')
       .map(t => t.trim())
       .filter(Boolean);
-    const task = addTask(title, { priority, tags });
+    addTask(title, { priority, tags });
     titleInput.value = '';
     priorityInput.value = '1';
     tagsInput.value = '';
-    addTaskToDOM(task);
+    renderTasks();
   });
 
   renderTasks();
