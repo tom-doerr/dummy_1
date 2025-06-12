@@ -4,8 +4,10 @@ A simple task manager web application using Node.js and Express. Tasks are store
 
 ## Setup
 
+Run the provided environment setup script which installs dependencies:
+
 ```bash
-npm install
+./setup_env.sh
 ```
 
 ## Running
@@ -15,6 +17,12 @@ npm start
 ```
 
 Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+## Testing
+
+```bash
+npm test
+```
 
 ## Endpoints
 
