@@ -3,3 +3,6 @@ body { font-family: Arial, sans-serif; margin: 2rem; }
 #task-list { list-style: none; padding: 0; }
 .task-item { margin: 0.5rem 0; }
 button.delete { margin-left: 0.5rem; }
+.task-item span.tags { margin-left: 0.5rem; color: #555; font-size: 0.9em; }
+.task-item span.time { margin-left: 0.5rem; font-weight: bold; }
+button.time-add { margin-left: 0.25rem; }
