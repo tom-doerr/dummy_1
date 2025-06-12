@@ -6,6 +6,8 @@ function loadScript() {
   document.body.innerHTML = `
     <form id="task-form">
       <input id="title" />
+      <input id="priority" />
+      <input id="tags" />
       <button type="submit">Add</button>
     </form>
     <ul id="task-list"></ul>
@@ -18,17 +20,19 @@ beforeEach(() => {
 });
 
 describe('DOM interactions', () => {
-  test('addTaskToDOM creates list item', () => {
+  test('addTaskToDOM creates list item with meta', () => {
     const { addTaskToDOM } = loadScript();
-    const task = { id: 1, title: 'demo' };
+    const task = { id: 1, title: 'demo', priority: 3, tags: ['a'], timeSpent: 0 };
     addTaskToDOM(task);
     const li = document.querySelector('li.task-item');
     expect(li).not.toBeNull();
     expect(li.textContent).toContain('demo');
+    expect(li.textContent).toContain('p3');
+    expect(li.textContent).toContain('a');
   });
 
   test('renderTasks populates list from storage', () => {
-    localStorage.setItem('tasks', JSON.stringify([{ id: 1, title: 'stored' }]));
+    localStorage.setItem('tasks', JSON.stringify([{ id: 1, title: 'stored', priority:1, tags:[], timeSpent:0 }]));
     const { renderTasks } = loadScript();
     renderTasks();
     const items = document.querySelectorAll('li.task-item');
@@ -48,6 +52,15 @@ describe('DOM interactions', () => {
     expect(getTasks().length).toBe(1);
   });
 
+  test('time button increases time', () => {
+    const { addTask, renderTasks, getTasks } = loadScript();
+    const task = addTask('time');
+    renderTasks();
+    const button = document.querySelector('button.time-add');
+    button.dispatchEvent(new Event('click'));
+    expect(getTasks()[0].timeSpent).toBe(5);
+  });
+
   test('delete button removes task', () => {
     const { addTask, renderTasks, getTasks } = loadScript();
     addTask('todelete');
@@ -59,11 +72,13 @@ describe('DOM interactions', () => {
   });
 
   test('tasks render on DOMContentLoaded', () => {
-    localStorage.setItem('tasks', JSON.stringify([{ id: 5, title: 'persisted' }]));
+    localStorage.setItem('tasks', JSON.stringify([{ id: 5, title: 'persisted', priority:1, tags:[], timeSpent:0 }]));
     jest.resetModules();
     document.body.innerHTML = `
       <form id="task-form">
         <input id="title" />
+        <input id="priority" />
+        <input id="tags" />
         <button type="submit">Add</button>
       </form>
       <ul id="task-list"></ul>
