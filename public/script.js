@@ -7,9 +7,11 @@ function saveTasks(tasks) {
 }
 
 function addTask(title, { priority = 1, tags = [], timeSpent = 0 } = {}) {
+  // ensure priority remains within the valid 1-9 range
+  const clamped = Math.min(9, Math.max(1, priority));
   const tasks = getTasks();
   const id = tasks.length ? Math.max(...tasks.map(t => t.id)) + 1 : 1;
-  const task = { id, title, priority, tags, timeSpent };
+  const task = { id, title, priority: clamped, tags, timeSpent };
   tasks.push(task);
   saveTasks(tasks);
   return task;
