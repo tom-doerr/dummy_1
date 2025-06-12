@@ -2,7 +2,7 @@
 
 A simple client-side task manager web application. Tasks are stored in your browser using `localStorage`.
 
-The app now supports priority levels `1-9`, comma separated tags and basic time tracking for each task. Tasks are automatically sorted by priority and high/low priority items are visually highlighted. Priority values outside the 1-9 range are clamped so invalid input never corrupts task data. An optional on-device language model integration (see `public/llm.js`) can parse natural language commands to add or edit tasks.
+The app now supports priority levels `1-9`, comma separated tags and basic time tracking for each task. Tasks are automatically sorted by priority and high/low priority items are visually highlighted. Priority values outside the 1-9 range are clamped so invalid input never corrupts task data. An optional on-device language model integration (see `public/llm.js`) can parse natural language commands to add or edit tasks. A simple chat interface (`public/chat.js`) lets you talk to the bot in the browser.
 
 ## Setup
 
