@@ -49,3 +49,9 @@ folder. Each successful run publishes an updated version of the site.
 npm test
 ```
 
+To run end-to-end tests:
+```bash
+npm run test:e2e
+```
+
+
