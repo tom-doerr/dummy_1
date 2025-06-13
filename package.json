@@ -4,15 +4,20 @@
   "description": "Simple Task Manager web app",
   "scripts": {
     "start": "http-server public",
-    "test": "jest"
+    "test": "jest",
+    "test:e2e": "playwright test"
   },
   "devDependencies": {
+    "@playwright/test": "^1.53.0",
     "http-server": "^14.1.1",
     "jest": "^29.6.2",
     "jest-environment-jsdom": "^29.6.2"
   },
   "jest": {
-    "testEnvironment": "jsdom"
+    "testEnvironment": "jsdom",
+    "testPathIgnorePatterns": [
+      "/e2e/"
+    ]
   },
   "dependencies": {
     "@xenova/transformers": "^2.6.0"
